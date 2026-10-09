@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Portafoglio</title>
+  <meta name="theme-color" content="#f6f1ea" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#1c1a17" media="(prefers-color-scheme: dark)">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="Portafoglio">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="icons/icon-192.png">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <h1 id="titolo">Portafoglio</h1>
+  </header>
+
+  <main id="vista" aria-live="polite"></main>
+
+  <button id="aggiungi" class="fab" aria-label="Aggiungi movimento">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>
+  </button>
+
+  <nav class="tabbar" aria-label="Sezioni">
+    <button data-vista="home" class="attiva">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11l9-7 9 7v9a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>
+      <span>Home</span>
+    </button>
+    <button data-vista="movimenti">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+      <span>Movimenti</span>
+    </button>
+    <span class="tab-spazio" aria-hidden="true"></span>
+    <button data-vista="riepilogo">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 20V11M12 20V5M19 20v-6"/></svg>
+      <span>Riepilogo</span>
+    </button>
+    <button data-vista="altro">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M4.9 19.1L7 17M17 7l2.1-2.1"/></svg>
+      <span>Backup</span>
+    </button>
+  </nav>
+
+  <!-- Foglio per aggiungere / modificare -->
+  <div id="velo" class="velo" hidden></div>
+  <section id="foglio" class="foglio" role="dialog" aria-modal="true" aria-labelledby="foglio-titolo" hidden>
+    <form id="modulo" autocomplete="off">
+      <div class="foglio-maniglia" aria-hidden="true"></div>
+      <h2 id="foglio-titolo">Nuovo movimento</h2>
+
+      <div class="segmenti" role="radiogroup" aria-label="Tipo">
+        <button type="button" data-tipo="U" class="seg seg-u attivo" role="radio" aria-checked="true">Uscita</button>
+        <button type="button" data-tipo="E" class="seg seg-e" role="radio" aria-checked="false">Entrata</button>
+      </div>
+
+      <label class="campo campo-importo">
+        <span>Importo</span>
+        <div class="importo-riga">
+          <span class="euro">€</span>
+          <input id="f-importo" inputmode="decimal" placeholder="0,00" required>
+        </div>
+      </label>
+
+      <label class="campo">
+        <span>Descrizione</span>
+        <input id="f-descrizione" list="suggerimenti" placeholder="Es. Nuoto, Regalo, Uffici…" required maxlength="120">
+        <datalist id="suggerimenti"></datalist>
+      </label>
+      <div id="rapidi" class="rapidi" aria-label="Descrizioni frequenti"></div>
+
+      <label class="campo">
+        <span>Data</span>
+        <input id="f-data" type="date" required>
+      </label>
+
+      <label id="riga-medica" class="interruttore">
+        <span>
+          <strong>Spesa medica</strong>
+          <small>Da conservare per il 730</small>
+        </span>
+        <input id="f-medica" type="checkbox">
+        <i aria-hidden="true"></i>
+      </label>
+
+      <p id="f-errore" class="errore" hidden></p>
+
+      <div class="azioni">
+        <button type="submit" class="btn btn-primario">Salva</button>
+        <button type="button" id="f-annulla" class="btn">Annulla</button>
+      </div>
+      <button type="button" id="f-elimina" class="btn-link pericolo" hidden>Elimina movimento</button>
+    </form>
+  </section>
+
+  <div id="avviso" class="avviso" role="status" hidden></div>
+  <input id="file-import" type="file" accept=".json,.csv,application/json,text/csv,text/plain" hidden>
+
+  <script src="app.js"></script>
+</body>
+</html>
